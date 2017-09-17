@@ -1,0 +1,292 @@
+<dcrgraph>
+	<specification>
+		<resources>
+			<events>
+				<event id="Collect Documents" scope="private" >
+					<custom>
+						<visualization>
+							<location />
+						</visualization>
+						<roles>
+							<role></role>
+						</roles>
+						<groups>
+							<group />
+						</groups>
+						<eventType></eventType>
+						<eventDescription></eventDescription>
+						<level>1</level>
+						<eventData></eventData>
+					</custom>
+				</event>
+				<event id="Statistical appraisal" scope="private" >
+					<custom>
+						<visualization>
+							<location />
+						</visualization>
+						<roles>
+							<role></role>
+						</roles>
+						<groups>
+							<group />
+						</groups>
+						<eventType></eventType>
+						<eventDescription></eventDescription>
+						<level>1</level>
+						<eventData></eventData>
+					</custom>
+				</event>
+				<event id="Appraisal audit" scope="private" >
+					<custom>
+						<visualization>
+							<location />
+						</visualization>
+						<roles>
+							<role></role>
+						</roles>
+						<groups>
+							<group />
+						</groups>
+						<eventType></eventType>
+						<eventDescription></eventDescription>
+						<level>1</level>
+						<eventData></eventData>
+					</custom>
+				</event>
+				<event id="Submit budget" scope="private" >
+					<custom>
+						<visualization>
+							<location />
+						</visualization>
+						<roles>
+							<role></role>
+						</roles>
+						<groups>
+							<group />
+						</groups>
+						<eventType></eventType>
+						<eventDescription></eventDescription>
+						<level>1</level>
+						<eventData></eventData>
+					</custom>
+				</event>
+				<event id="On-site appraisal" scope="private" >
+					<custom>
+						<visualization>
+							<location />
+						</visualization>
+						<roles>
+							<role></role>
+						</roles>
+						<groups>
+							<group />
+						</groups>
+						<eventType></eventType>
+						<eventDescription></eventDescription>
+						<level>1</level>
+						<eventData></eventData>
+					</custom>
+				</event>
+				<event id="Irregular neighbourhood" scope="private" >
+					<custom>
+						<visualization>
+							<location />
+						</visualization>
+						<roles>
+							<role></role>
+						</roles>
+						<groups>
+							<group />
+						</groups>
+						<eventType></eventType>
+						<eventDescription></eventDescription>
+						<level>1</level>
+						<eventData></eventData>
+					</custom>
+				</event>
+				<event id="Make appraisal appointment" scope="private" >
+					<custom>
+						<visualization>
+							<location />
+						</visualization>
+						<roles>
+							<role></role>
+						</roles>
+						<groups>
+							<group />
+						</groups>
+						<eventType></eventType>
+						<eventDescription></eventDescription>
+						<level>1</level>
+						<eventData></eventData>
+					</custom>
+				</event>
+				<event id="Budget screening approve" scope="private" >
+					<custom>
+						<visualization>
+							<location />
+						</visualization>
+						<roles>
+							<role></role>
+						</roles>
+						<groups>
+							<group />
+						</groups>
+						<eventType></eventType>
+						<eventDescription></eventDescription>
+						<level>1</level>
+						<eventData></eventData>
+					</custom>
+				</event>
+				<event id="Assess loan application" scope="private" >
+					<custom>
+						<visualization>
+							<location />
+						</visualization>
+						<roles>
+							<role></role>
+						</roles>
+						<groups>
+							<group />
+						</groups>
+						<eventType></eventType>
+						<eventDescription></eventDescription>
+						<level>1</level>
+						<eventData></eventData>
+					</custom>
+				</event>
+			</events>
+			<subProcesses></subProcesses>
+			<distribution>
+				<externalEvents></externalEvents>
+			</distribution>
+			<labels>
+				<label id ="Collect Documents"/>
+				<label id ="Statistical appraisal"/>
+				<label id ="Appraisal audit"/>
+				<label id ="Submit budget"/>
+				<label id ="On-site appraisal"/>
+				<label id ="Irregular neighbourhood"/>
+				<label id ="Make appraisal appointment"/>
+				<label id ="Budget screening approve"/>
+				<label id ="Assess loan application"/>
+			</labels>
+			<labelMappings>
+				<labelMapping eventId ="Collect Documents"  labelId = "Collect Documents"/>
+				<labelMapping eventId ="Statistical appraisal"  labelId = "Statistical appraisal"/>
+				<labelMapping eventId ="Appraisal audit"  labelId = "Appraisal audit"/>
+				<labelMapping eventId ="Submit budget"  labelId = "Submit budget"/>
+				<labelMapping eventId ="On-site appraisal"  labelId = "On-site appraisal"/>
+				<labelMapping eventId ="Irregular neighbourhood"  labelId = "Irregular neighbourhood"/>
+				<labelMapping eventId ="Make appraisal appointment"  labelId = "Make appraisal appointment"/>
+				<labelMapping eventId ="Budget screening approve"  labelId = "Budget screening approve"/>
+				<labelMapping eventId ="Assess loan application"  labelId = "Assess loan application"/>
+			</labelMappings>
+			<expressions></expressions>
+			<variables></variables>
+			<variableAccesses>
+				<writeAccesses />
+			</variableAccesses>
+			<custom>
+				<roles></roles>
+				<groups></groups>
+				<eventTypes></eventTypes>
+				<graphDetails></graphDetails>
+				<graphFilters>
+					<filteredGroups></filteredGroups>
+					<filteredRoles></filteredRoles>
+				</graphFilters>
+			</custom>
+		</resources>
+		<constraints>
+			<conditions>
+				<condition sourceId="Collect Documents" targetId="Irregular neighbourhood" filterLevel="1"  description=""  time=""  groups=""  />
+				<condition sourceId="Collect Documents" targetId="Make appraisal appointment" filterLevel="1"  description=""  time=""  groups=""  />
+				<condition sourceId="Collect Documents" targetId="Assess loan application" filterLevel="1"  description=""  time=""  groups=""  />
+				<condition sourceId="Submit budget" targetId="Budget screening approve" filterLevel="1"  description=""  time=""  groups=""  />
+				<condition sourceId="Submit budget" targetId="Assess loan application" filterLevel="1"  description=""  time=""  groups=""  />
+				<condition sourceId="Irregular neighbourhood" targetId="Make appraisal appointment" filterLevel="1"  description=""  time=""  groups=""  />
+				<condition sourceId="Budget screening approve" targetId="Assess loan application" filterLevel="1"  description=""  time=""  groups=""  />
+			</conditions>
+			<responses>
+				<response sourceId="Submit budget" targetId="Budget screening approve" filterLevel="1"  description=""  time=""  groups=""  />
+				<response sourceId="Submit budget" targetId="Assess loan application" filterLevel="1"  description=""  time=""  groups=""  />
+				<response sourceId="Budget screening approve" targetId="Assess loan application" filterLevel="1"  description=""  time=""  groups=""  />
+			</responses>
+			<excludes>
+				<exclude sourceId="Statistical appraisal" targetId="On-site appraisal" filterLevel="1"  description=""  time=""  groups=""  />
+				<exclude sourceId="Statistical appraisal" targetId="Make appraisal appointment" filterLevel="1"  description=""  time=""  groups=""  />
+				<exclude sourceId="On-site appraisal" targetId="Statistical appraisal" filterLevel="1"  description=""  time=""  groups=""  />
+				<exclude sourceId="Irregular neighbourhood" targetId="Statistical appraisal" filterLevel="1"  description=""  time=""  groups=""  />
+				<exclude sourceId="Make appraisal appointment" targetId="Statistical appraisal" filterLevel="1"  description=""  time=""  groups=""  />
+			</excludes>
+			<includes>
+				<include sourceId="Statistical appraisal" targetId="Irregular neighbourhood" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Statistical appraisal" targetId="Budget screening approve" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Statistical appraisal" targetId="Assess loan application" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="On-site appraisal" targetId="Irregular neighbourhood" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="On-site appraisal" targetId="Make appraisal appointment" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="On-site appraisal" targetId="Budget screening approve" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="On-site appraisal" targetId="Assess loan application" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Irregular neighbourhood" targetId="On-site appraisal" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Irregular neighbourhood" targetId="Make appraisal appointment" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Make appraisal appointment" targetId="On-site appraisal" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Make appraisal appointment" targetId="Budget screening approve" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Make appraisal appointment" targetId="Assess loan application" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Collect Documents" targetId="Statistical appraisal" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Collect Documents" targetId="On-site appraisal" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Collect Documents" targetId="Irregular neighbourhood" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Collect Documents" targetId="Make appraisal appointment" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Collect Documents" targetId="Budget screening approve" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Collect Documents" targetId="Assess loan application" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Appraisal audit" targetId="Statistical appraisal" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Appraisal audit" targetId="On-site appraisal" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Appraisal audit" targetId="Irregular neighbourhood" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Appraisal audit" targetId="Make appraisal appointment" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Appraisal audit" targetId="Budget screening approve" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Appraisal audit" targetId="Assess loan application" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Submit budget" targetId="Statistical appraisal" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Submit budget" targetId="On-site appraisal" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Submit budget" targetId="Irregular neighbourhood" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Submit budget" targetId="Make appraisal appointment" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Submit budget" targetId="Budget screening approve" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Submit budget" targetId="Assess loan application" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Budget screening approve" targetId="Statistical appraisal" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Budget screening approve" targetId="On-site appraisal" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Budget screening approve" targetId="Irregular neighbourhood" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Budget screening approve" targetId="Make appraisal appointment" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Assess loan application" targetId="Statistical appraisal" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Assess loan application" targetId="On-site appraisal" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Assess loan application" targetId="Irregular neighbourhood" filterLevel="1"  description=""  time=""  groups=""  />
+				<include sourceId="Assess loan application" targetId="Make appraisal appointment" filterLevel="1"  description=""  time=""  groups=""  />
+			</includes>
+			<spawns></spawns>
+		</constraints>
+	</specification>
+	<runtime>
+		<marking>
+			<globalStore></globalStore>
+			<executed>
+			</executed>
+			<included>
+				<event id="Collect Documents"/>
+				<event id="Statistical appraisal"/>
+				<event id="Appraisal audit"/>
+				<event id="Submit budget"/>
+				<event id="On-site appraisal"/>
+			</included>
+			<pendingResponses>
+				<event id="Collect Documents"/>
+				<event id="Statistical appraisal"/>
+				<event id="Appraisal audit"/>
+				<event id="Submit budget"/>
+				<event id="On-site appraisal"/>
+				<event id="Irregular neighbourhood"/>
+				<event id="Make appraisal appointment"/>
+				<event id="Budget screening approve"/>
+				<event id="Assess loan application"/>
+			</pendingResponses>
+		</marking>
+		<custom />
+	</runtime>
+</dcrgraph>
