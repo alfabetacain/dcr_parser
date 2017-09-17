@@ -8,16 +8,9 @@ import scala.language.implicitConversions
 
 object Main {
   def main(args: Array[String]): Unit = { 
-    val xml = XML.loadFile(args(0))
-    val stuff = for {
-      events <- (xml \\ "events").headOption.map(_ \ "event")
-      labels <- (xml \\ "labels").headOption.map(_ \ "label")
-      labelMappings <- (xml \\  "labelMappings").headOption.map(_ \ "labelMapping")
-      constraints <- (xml \\ "constraints").headOption
-      runtime <- (xml \\ "runtime").headOption
-      res <- DCR.buildDCR(events, labels, labelMappings, constraints, runtime)
-    } yield res
-    println(stuff)
+    val dcr1 = DCR.fromXmlFile(args(0)).get
+
+    val dcr2 = dcr1.addRelation(DCR.Exclude, dcr1.activities.head, dcr1.activities.head)
   }
 }
 
@@ -28,6 +21,18 @@ object DCR {
   case object Response extends Constraint
   case object Include extends Constraint
   case object Exclude extends Constraint
+
+  def fromXmlFile(file: String): Option[DCR] = { 
+    val xml = XML.loadFile(file)
+    for {
+      events <- (xml \\ "events").headOption.map(_ \ "event")
+      labels <- (xml \\ "labels").headOption.map(_ \ "label")
+      labelMappings <- (xml \\  "labelMappings").headOption.map(_ \ "labelMapping")
+      constraints <- (xml \\ "constraints").headOption
+      runtime <- (xml \\ "runtime").headOption
+      res <- DCR.buildDCR(events, labels, labelMappings, constraints, runtime)
+    } yield res
+  }
 
   def buildDCR(events: NodeSeq, labels: NodeSeq, labelMappings: NodeSeq,
     constraints: NodeSeq, runtime: NodeSeq): Option[DCR] = {
@@ -88,7 +93,7 @@ object DCR {
           executed = getOrDefault(x._1, "executed", runtime),
           pending = getOrDefault(x._1, "pending", runtime)
           )
-      }
+      }.toSet
       val map = activities.map(x => x.id -> x).toMap
       override val constraints: Map[DCR.Constraint, Map[this.Activity, Set[this.Activity]]] = 
         cs.groupBy(_._1).map(x => (x._1 -> x._2.foldLeft[Map[this.Activity, Set[this.Activity]]](Map.empty){ case (acc, (_, (act1, act2))) =>
@@ -110,6 +115,18 @@ object DCR {
   }
 
   def typeMap(dcr: DCR): DCR#Activity => dcr.Activity = _.asInstanceOf[dcr.Activity]
+
+  def mapmap(from: DCR)(to: DCR): Map[Constraint, Map[to.Activity, Set[to.Activity]]] = {
+    from.constraints.map{case (key, value) =>
+      key -> (
+        value.map{case (ikey, ivalue) =>
+          ikey.asInstanceOf[to.Activity] -> (
+            ivalue.map(_.asInstanceOf[to.Activity])
+          )
+        }
+      )
+    }
+  }
 }
 
 trait DCR { 
@@ -122,12 +139,12 @@ trait DCR {
     def executed: Boolean
   }
 
-  def constraints: Map[DCR.Constraint, Map[this.Activity, Set[Activity]]] = Map.empty
+  def constraints: Map[DCR.Constraint, Map[Activity, Set[Activity]]] = Map.empty
 
-  def activities: Seq[Activity]
+  def activities: Set[Activity]
 
-  implicit def conv(act: this.Activity): ActivityOps = new ActivityOps(act)
-  case class ActivityOps(act: this.Activity) {
+  implicit def conv(act: Activity): ActivityOps = new ActivityOps(act)
+  case class ActivityOps(act: Activity) {
     def includes: Set[Activity] = constraints.get(DCR.Include).flatMap(_.get(act))
       .getOrElse(Set.empty)
     def excludes: Set[Activity] = constraints.get(DCR.Exclude).flatMap(_.get(act))
@@ -138,11 +155,17 @@ trait DCR {
       .getOrElse(Set.empty)
   }
 
-  def addRelation(typ: DCR.Constraint, source: this.Activity, target: this.Activity): DCR = {
-    val me = this
+  def addRelation(typ: DCR.Constraint, source: Activity, target: Activity): DCR = {
+    val me = DCR.this
+    val blah: this.Activity = source
+    val outerConstraints = constraints
     new DCR {
       def activities = me.activities.map(_.asInstanceOf[this.Activity])
-      override val constraints = Map(typ -> (Map(source.asInstanceOf[this.Activity] -> Set(target.asInstanceOf[this.Activity]))))
+      private val current = outerConstraints.get(typ).get.get(source)
+      private val ss = current.map(x => if (x.contains(target)) x else x + target)
+      private val converted = DCR.mapmap(me)(this)
+      override val constraints = 
+        converted + (typ -> (converted.get(typ).get + (source.asInstanceOf[this.Activity] -> ss.map(_.map(_.asInstanceOf[this.Activity])).getOrElse(Set.empty))))
     }
   }
 }
