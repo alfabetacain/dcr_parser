@@ -68,15 +68,6 @@ object DCR {
       }.toMap
       //val cons = conditions.map(extractSourceAndTarget(_)).map((Condition, _))
       val res = buildDCR(eventsInfo, cons.map(x => x._1 ++ x._2 ++ x._3 ++ x._4).getOrElse(List.empty), status)
-      val other: DCR = new DCR {
-        def myMap: DCR#Activity => this.Activity = x => x.asInstanceOf[this.Activity]
-        def activities = res.activities.map(myMap)
-      }
-      val blah = other.activities
-      import res.conv
-      assert(res.constraints.get(Include) != None)
-      val haha: Set[res.Activity] = (res.constraints.get(Include).get.keys.head).includes
-      //println(s">>>>>>>>>>>>>>>>>>>>>>>>>>>> $haha")
       Some(res)
   }
 
@@ -105,7 +96,6 @@ object DCR {
             acc + (a1 -> Set(a2))
         }))
 
-      case class ActivityImpl(id: String, name: String, included: Boolean, executed: Boolean, pending: Boolean) extends Activity
       override def toString = activities.mkString("\n")
     }
   }
@@ -114,14 +104,14 @@ object DCR {
     (node.attributes("sourceId").head.toString, node.attribute("targetId").get.head.toString)
   }
 
-  def typeMap(dcr: DCR): DCR#Activity => dcr.Activity = _.asInstanceOf[dcr.Activity]
+  def activityTypeMap(dcr: DCR): DCR#Activity => dcr.Activity = _.asInstanceOf[dcr.Activity]
 
-  def mapmap(from: DCR)(to: DCR): Map[Constraint, Map[to.Activity, Set[to.Activity]]] = {
+  private def constraintsTypeMap(from: DCR)(to: DCR): Map[Constraint, Map[to.Activity, Set[to.Activity]]] = {
     from.constraints.map{case (key, value) =>
       key -> (
         value.map{case (ikey, ivalue) =>
           ikey.asInstanceOf[to.Activity] -> (
-            ivalue.map(_.asInstanceOf[to.Activity])
+            ivalue.map(activityTypeMap(to))
           )
         }
       )
@@ -139,7 +129,7 @@ trait DCR {
     def executed: Boolean
   }
 
-  def constraints: Map[DCR.Constraint, Map[Activity, Set[Activity]]] = Map.empty
+  def constraints: Map[DCR.Constraint, Map[Activity, Set[Activity]]]
 
   def activities: Set[Activity]
 
@@ -163,9 +153,31 @@ trait DCR {
       def activities = me.activities.map(_.asInstanceOf[this.Activity])
       private val current = outerConstraints.get(typ).get.get(source)
       private val ss = current.map(x => if (x.contains(target)) x else x + target)
-      private val converted = DCR.mapmap(me)(this)
+      private val converted = DCR.constraintsTypeMap(me)(this)
       override val constraints = 
         converted + (typ -> (converted.get(typ).get + (source.asInstanceOf[this.Activity] -> ss.map(_.map(_.asInstanceOf[this.Activity])).getOrElse(Set.empty))))
     }
   }
+
+  def copy: DCR = {
+    val me = this
+    new DCR {
+      override val activities = me.activities.map(DCR.activityTypeMap(this))
+      override val constraints = DCR.constraintsTypeMap(me)(this)
+    }
+  }
+
+  def addActivity(id: String, name: String = "", included: Boolean = false, 
+    executed: Boolean = false, pending: Boolean = false): DCR = {
+      val me = this
+      new DCR {
+        override val activities = 
+          me.activities.map(DCR.activityTypeMap(this)) + 
+            new ActivityImpl(id, name, included, executed, pending)
+        override val constraints = DCR.constraintsTypeMap(me)(this)
+      }
+  }
+
+  private[DCR] case class ActivityImpl(id: String, name: String, 
+    included: Boolean, executed: Boolean, pending: Boolean) extends Activity
 }
